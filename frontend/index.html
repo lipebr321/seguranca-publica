@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Busca Segurança Pública</title>
+</head>
+<body>
+
+<h1>Busca SSP-SP</h1>
+
+<input type="text" id="busca">
+<button onclick="buscar()">Buscar</button>
+
+<div id="resultados"></div>
+
+<script>
+async function buscar() {
+  const q = document.getElementById("busca").value;
+
+  const res = await fetch(`http://localhost:8000/buscar?q=${q}`);
+  const dados = await res.json();
+
+  let html = "";
+
+  dados.forEach(item => {
+    html += `
+      <div style="border:1px solid #ccc;padding:10px;margin:10px;">
+        <h3>${item.dados.titulo}</h3>
+        <p>${item.dados.descricao}</p>
+        <small>Score: ${item.score}</small>
+      </div>
+    `;
+  });
+
+  document.getElementById("resultados").innerHTML = html;
+}
+</script>
+
+</body>
+</html>
